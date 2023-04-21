@@ -32,10 +32,25 @@ const deleteKey = async (index: number) => {
     }
   }
 }
+const downloadKeys = () => {
+  const link = document.createElement('a')
+  const file = new Blob(
+    [
+      `Project Key:\n${projectKey.value}\n\nData Keys:\n${
+        dataKeys.value?.length ? dataKeys.value.join('\n') : 'Empty'
+      }`,
+    ],
+    { type: 'text/plain' }
+  )
+  link.href = URL.createObjectURL(file)
+  link.download = 'discollection-keys.txt'
+  link.click()
+  URL.revokeObjectURL(link.href)
+}
 </script>
 
 <template>
-  <div>
+  <Html lang="en">
     <Head>
       <Title>Discollection</Title>
       <Meta name="title" content="Discollection" />
@@ -62,48 +77,52 @@ const deleteKey = async (index: number) => {
       />
       <Link rel="manifest" href="/site.webmanifest" />
     </Head>
-    <h1>Why Discollection?</h1>
-    <p>
-      Discollection's purpose is to become a disposable collection. Since you
-      still cannot delete collections, this space application is a temporary
-      solution.
-    </p>
-    <p>
-      When creating a deta base, please do not use the namespace
-      <span class="highlight">discollection-config</span>. It is used to store
-      data for this space application.
-    </p>
-    <details>
-      <summary>Project Key</summary>
+    <Body>
+      <h1>Why Discollection?</h1>
       <p>
-        <code>{{ projectKey }}</code>
+        Discollection's purpose is to become a disposable collection. Since you
+        still cannot delete collections, this space application is a temporary
+        solution.
       </p>
       <p>
-        Make sure to protect your project key as much as possible. This is a
-        permanent access key to your collection.
+        When creating a deta base, please do not use the namespace
+        <span class="highlight">discollection-config</span>. It is used to store
+        data for this space application.
       </p>
-    </details>
-    <details>
-      <summary>Data Keys</summary>
-      <p>
-        If you want to create a disposable access key, create a data key. To
-        generate a data key, open your Discollection's settings and head to the
-        <span class="highlight">Keys</span> tab/section.
-      </p>
-      <p>
-        You can save your data keys here as backup copy since you can only see
-        data keys once during their generation.
-      </p>
-      <input type="text" placeholder="Enter data key" v-model="keyInput" />
-      <button @click="saveKey()">Save</button>
-      <p>Saved data keys:</p>
-      <ul v-if="dataKeys?.length">
-        <li v-for="(dataKey, index) in dataKeys" :key="index">
-          <code>{{ dataKey }}</code>
-          <button @click="deleteKey(index)">Delete</button>
-        </li>
-      </ul>
-      <p v-else>No data keys saved.</p>
-    </details>
-  </div>
+      <details>
+        <summary>Project Key</summary>
+        <p>
+          <code>{{ projectKey }}</code>
+        </p>
+        <p>
+          Make sure to protect your project key as much as possible. This is a
+          permanent access key to your collection.
+        </p>
+      </details>
+      <details>
+        <summary>Data Keys</summary>
+        <p>
+          If you want to create a disposable access key, create a data key. To
+          generate a data key, open your Discollection's settings and head to
+          the
+          <span class="highlight">Keys</span> tab/section.
+        </p>
+        <p>
+          You can save your data keys here as backup copy since you can only see
+          data keys once during their generation.
+        </p>
+        <input type="text" placeholder="Enter data key" v-model="keyInput" />
+        <button @click="saveKey()">Save</button>
+        <p>Saved data keys:</p>
+        <ul v-if="dataKeys?.length">
+          <li v-for="(dataKey, index) in dataKeys" :key="index">
+            <code>{{ dataKey }}</code>
+            <button @click="deleteKey(index)">Delete</button>
+          </li>
+        </ul>
+        <p v-else>No data keys saved.</p>
+      </details>
+      <button @click="downloadKeys()">Download Keys</button>
+    </Body>
+  </Html>
 </template>
