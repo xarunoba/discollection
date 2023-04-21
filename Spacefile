@@ -2,7 +2,7 @@
 v: 0
 icon: ./public/android-chrome-512x512.png
 micros:
-  - name: Discollection
+  - name: discollection
     src: ./
     engine: nuxt
     primary: true
