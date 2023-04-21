@@ -15,3 +15,4 @@ Discollection lets you:
 
 - Privately view it's private key.
 - Privately save and delete your generated data keys for backup purposes.
+- Download your access keys locally.
