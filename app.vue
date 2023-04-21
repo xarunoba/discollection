@@ -18,6 +18,7 @@ const saveKey = async () => {
       method: 'POST',
       body: { data_keys: dataKeys },
     })
+    keyInput.value = ''
   }
 }
 const deleteKey = async (index: number) => {
