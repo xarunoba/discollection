@@ -16,17 +16,18 @@ h3 {
 
 code {
   user-select: all;
-  padding-inline: 0.25rem;
-  background-color: #f0f0f0;
-}
-
-.highlight {
+  word-break: break-all;
   padding-inline: 0.25rem;
   background-color: #f0f0f0;
 }
 
 button {
   margin-inline: 0.5rem;
+}
+
+.highlight {
+  padding-inline: 0.25rem;
+  background-color: #f0f0f0;
 }
 
 @media (prefers-color-scheme: dark) {

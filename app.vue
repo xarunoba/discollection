@@ -14,7 +14,7 @@ const saveKey = async () => {
   if (keyInput.value !== '') {
     if (dataKeys.value) dataKeys.value.push(keyInput.value)
     else dataKeys.value = [keyInput.value]
-    const { data } = await useFetch('/api/datakeys', {
+    await useFetch('/api/datakeys', {
       method: 'POST',
       body: { data_keys: dataKeys },
     })
@@ -23,7 +23,7 @@ const saveKey = async () => {
 const deleteKey = async (index: number) => {
   if (dataKeys.value) {
     dataKeys.value.splice(index, 1)
-    const { data } = await useFetch('/api/datakeys', {
+    await useFetch('/api/datakeys', {
       method: 'POST',
       body: { data_keys: dataKeys },
     })
@@ -64,6 +64,11 @@ const deleteKey = async (index: number) => {
       Discollection's purpose is to become a disposable collection. Since you
       still cannot delete collections, this space application is a temporary
       solution.
+    </p>
+    <p>
+      When creating a deta base, please do not use the namespace
+      <span class="highlight">discollection-config</span>. It is used to store
+      data for this space application.
     </p>
     <details>
       <summary>Project Key</summary>
