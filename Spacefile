@@ -1,0 +1,8 @@
+# Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
+v: 0
+icon: ./public/android-chrome-512x512.png
+micros:
+  - name: Discollection
+    src: ./
+    engine: nuxt
+    primary: true
