@@ -21,12 +21,14 @@ const saveKey = async () => {
   }
 }
 const deleteKey = async (index: number) => {
-  if (dataKeys.value) {
-    dataKeys.value.splice(index, 1)
-    await useFetch('/api/datakeys', {
-      method: 'POST',
-      body: { data_keys: dataKeys },
-    })
+  if (confirm('Are you sure you want to delete this key?')) {
+    if (dataKeys.value) {
+      dataKeys.value.splice(index, 1)
+      await useFetch('/api/datakeys', {
+        method: 'POST',
+        body: { data_keys: dataKeys },
+      })
+    }
   }
 }
 </script>
