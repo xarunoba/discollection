@@ -89,6 +89,24 @@ const downloadKeys = () => {
         <span class="highlight">discollection-config</span>. It is used to store
         data for this space application.
       </p>
+      <h2>Resources</h2>
+      <ul>
+        <li>
+          <a href="https://deta.space/" target="_blank">Deta Space</a>
+        </li>
+        <li>
+          <a
+            href="https://deta.space/docs/en/introduction/start"
+            target="_blank"
+            >Deta Developer Docs</a
+          >
+        </li>
+        <li>
+          <a href="https://github.com/Xarunoba/discollection" target="_blank"
+            >Github</a
+          >
+        </li>
+      </ul>
       <details>
         <summary>Project Key</summary>
         <p>
