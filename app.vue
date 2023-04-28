@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { ObjectType } from 'deta/dist/types/types/basic'
+
 const projectKey = ref<string | null>('Project Key')
-const dataKeys = ref<string[] | null>(['Data Key'])
+const dataKeys = ref<ObjectType[] | null>([{ key: '1', value: 'Data Key' }])
 const { data: _projectKey } = await useFetch(`/api/projectkey`)
-const { data: _dataKeys } = await useFetch<string[] | null>(`/api/datakeys`)
+const { data: _dataKeys } = await useFetch<ObjectType[] | null>(`/api/datakeys`)
 const keyInput = ref('')
+const isSubmitting = ref(false)
 
 onMounted(() => {
   projectKey.value = _projectKey.value
@@ -12,32 +15,37 @@ onMounted(() => {
 
 const saveKey = async () => {
   if (keyInput.value !== '') {
-    if (dataKeys.value) dataKeys.value.push(keyInput.value)
-    else dataKeys.value = [keyInput.value]
-    await useFetch('/api/datakeys', {
+    isSubmitting.value = true
+    const res = await useFetch('/api/addkey', {
       method: 'POST',
-      body: { data_keys: dataKeys },
+      body: { data_key: keyInput.value },
     })
+    dataKeys.value = res.data.value
     keyInput.value = ''
+    isSubmitting.value = false
   }
 }
 const deleteKey = async (index: number) => {
   if (confirm('Are you sure you want to delete this key?')) {
     if (dataKeys.value) {
-      dataKeys.value.splice(index, 1)
-      await useFetch('/api/datakeys', {
+      isSubmitting.value = true
+      const dataKey = dataKeys.value[index].key
+      const res = await useFetch('/api/delkey', {
         method: 'POST',
-        body: { data_keys: dataKeys },
+        body: { data_key: dataKey },
       })
+      dataKeys.value = res.data.value
+      isSubmitting.value = false
     }
   }
 }
 const downloadKeys = () => {
   const link = document.createElement('a')
+  const dataKeysArray = dataKeys.value?.map((obj) => obj.value)
   const file = new Blob(
     [
       `Project Key:\n${projectKey.value}\n\nData Keys:\n${
-        dataKeys.value?.length ? dataKeys.value.join('\n') : 'Empty'
+        dataKeysArray?.length ? dataKeysArray.join('\n') : 'Empty'
       }`,
     ],
     { type: 'text/plain' }
@@ -130,12 +138,16 @@ const downloadKeys = () => {
           data keys once during their generation.
         </p>
         <input type="text" placeholder="Enter data key" v-model="keyInput" />
-        <button @click="saveKey()">Save</button>
+        <button @click="saveKey()" :disabled="isSubmitting">
+          {{ isSubmitting ? 'Submitting...' : 'Save' }}
+        </button>
         <p>Saved data keys:</p>
         <ul v-if="dataKeys?.length">
           <li v-for="(dataKey, index) in dataKeys" :key="index">
-            <code>{{ dataKey }}</code>
-            <button @click="deleteKey(index)">Delete</button>
+            <code>{{ dataKey.value }}</code>
+            <button @click="deleteKey(index)" :disabled="isSubmitting">
+              Delete
+            </button>
           </li>
         </ul>
         <p v-else>No data keys saved.</p>
