@@ -1,5 +1,7 @@
 # Discollection
 
+**UPDATE:** Deleting collections are now implemented natively. Archiving this now.
+
 Your own disposable collection for [Deta Space](https://deta.space/). A developer detonian's cure for an itch.
 
 Discollection's purpose is to become a disposable collection. Since you
